@@ -7,17 +7,17 @@ class Point:
         return f'({self.x},{self.y})'
 
 class QTree:
-    def __init__(self, threshHold=None):
+    def __init__(self,x=None,y=None,w=None,h=None, threshHold=None):
         self.points = []
         self.threshHold = threshHold
-    def rectangle(self, x, y, w, h):
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
+        self.x,self.y = x,y
+        self.w,self.h = w,h
+
+    def recta(self,x,y,w,h):
+        return r
+
     def subdivide(self,rectangle):
         pass
-
 
     def add_point(self, item):
         return self.points.append(item)
