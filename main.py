@@ -41,16 +41,27 @@ class Rectangle:
     def get_h(self):
         return self.y
     def boundaryX(self, point):
-        if self.x - self.w / 2 < point.x < self.x + self.w / 2:
+        if self.x - self.w/ 2 < point.x < self.x + self.w / 2:
             return True
     def boundaryY(self, point):
         if self.y - self.h / 2 < point.y < self.y + self.h / 2:
             return True
-    def intersects(self):
-        return self.boundaryX() and self.boundaryY
+    def intersects(self,item):
+        print("fals")
+        print(self.x,self.y,self.h,self.w,item.x,item.y)
+        print(f'({self.x}-{self.w/2}<{item.x}<{self.x+self.w/2})')
+        print(f'({self.y}-{self.h / 2}<{item.y}<{self.y + self.h / 2})')
+        #print (str(self.x - self.w / 2 +'<'+ item.x +'<'+ self.x + self.w / 2 ))
+        return self.x - self.w/ 2 <= item.x <= self.x + self.w / 2 and self.y - self.h / 2 <= item.y <= self.y + self.h / 2
+        print("tru")
+         #self.boundaryX and self.boundaryY
 
 class QTree:
-    def __init__(self, depth,threshHold=None):
+    def __init__(self,x=None,y=None,w=None,h=None ,depth=None,threshHold=None): #x=None,y=None
+        self.x=x
+        self.y = y
+        self.w = w
+        self.h = h
         self.points = []
         self.sub_point=[]
         self.counter=0
@@ -64,13 +75,19 @@ class QTree:
             yield child
 
     def add_point(self, item):
+        print(type(item))
+        if Rectangle.intersects(self,item):
+            return self.points.append(item)
+
+        """
         if self.counter< self.threshhold:
             return self.points.append(item)
         else:
-            return self.sub_point.append(item)
+            return self.sub_point.append(item)"""
 
-    def insert(self, x, y):
-        item = str(Point(x, y))  # TODO SHIKO DHE NJER RETURN TYPE
+    def insert(self,item):
+         # TODO SHIKO DHE NJER RETURN TYPE
+        print(type(item))
         if item not in self.points:
             self.add_point(item)
 
@@ -81,10 +98,10 @@ class QTree:
         return len(self.points)
 
 
-a = QTree()
-a.insert(1, 2)
-a.insert(3, 4)
-a.insert(1, 2)
-a.insert(1, 2)
+b = Point(1,2)
+print(type(b))
+a=QTree(0,0,4,4)
+print(type(a))
+a.insert(b)
 cd = a.return_points()
 print(cd, len(a))
