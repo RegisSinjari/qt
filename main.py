@@ -33,7 +33,23 @@ class Rectangle:
         w2, h2 = self.w / 2, self.h / 2
         x2, y2 = self.x / 2, self.y / 2
         return Rectangle(x2,y2,w2,h2)
-
+    def divideNE(self):
+        w2, h2 = self.w / 2, self.h / 2
+        x2,y2= self.x-w2,self.y + h2
+        return Rectangle(x2, y2, w2, h2)
+    def divideNW(self):
+        w2, h2 = self.w / 2, self.h / 2
+        x2, y2 = self.x + w2, self.y + h2
+        return Rectangle(x2, y2, w2, h2)
+    def divideSE(self):
+        w2, h2 = self.w / 2, self.h / 2
+        x2, y2 = self.x - w2, self.y - h2
+        return Rectangle(x2, y2, w2, h2)
+    def divideSW(self):
+        w2, h2 = self.w / 2, self.h / 2
+        x2, y2 = self.x + w2, self.y - h2
+        return Rectangle(x2, y2, w2, h2)
+    """
     def get_x(self):
         return self.x
     def get_y(self):
@@ -41,7 +57,7 @@ class Rectangle:
     def get_w(self):
         return self.x
     def get_h(self):
-        return self.y
+        return self.y """
     def boundaryX(self, point):
         if self.x - self.w/ 2 < point.x < self.x + self.w / 2:
             return True
