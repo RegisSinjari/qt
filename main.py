@@ -1,14 +1,16 @@
 class Point:
-    def __init__(self, x, y,data=None):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.data=data
     def get_x(self):
         return self.x
 
     def get_y(self):
         return self.y
-
+    def __eq__(self, other):
+        if isinstance(other, Point):
+            return self.x == other.x and self.y == other.y
+        return False
     def __repr__(self):
         return f'({self.x},{self.y})'
 """kjo pjesa siper eshte ok"""
@@ -58,11 +60,11 @@ class Rectangle:
 
 class QTree:
     def __init__(self,x=None,y=None,w=None,h=None ,depth=None,threshHold=None): #x=None,y=None
+        self.points = []
         self.x=x
         self.y = y
         self.w = w
         self.h = h
-        self.points = []
         self.sub_point=[]
         self.counter=0
         self.depth=depth
@@ -87,9 +89,11 @@ class QTree:
 
     def insert(self,item):
          # TODO SHIKO DHE NJER RETURN TYPE
-        print(type(item))
+        print(type(self.points))
         if item not in self.points:
             self.add_point(item)
+
+
 
     def return_points(self) -> list:
         return self.points
@@ -102,6 +106,18 @@ b = Point(1,2)
 print(type(b))
 a=QTree(0,0,4,4)
 print(type(a))
-a.insert(b)
+a.add_point(Point(1,2))
+a.insert(Point(1,3))
+a.insert(Point(2,1))
+a.insert(Point(2,1))
+a.insert(Point(1,2))
+m=Point(1,2)
+n=a.points[0]
+#print(type(n),type(m),type(a.points[1]))
+#print(m==a.points[1])
 cd = a.return_points()
+#print(a.points[1])
+#print(a.points[2])
+#print(type(a.points[1]))
+#print(a.points[1]==a.points[2])
 print(cd, len(a))
