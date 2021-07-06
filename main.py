@@ -164,10 +164,20 @@ print(cd, len(a),a.return_sub_points())
 """
 insert>
 points qe intersect nga Rect
-    if points counter>3
+        
+    if points counter>3 
         split rect
         insert on subpoints that intersect minirects
-    until subpoints counter >3
-    then split
+        points.append(subpoints)
+        if subpoints counter >3
+            split()
+            insert()
+            counter=
+    points.append(point)
+Rect(x,y,w,h,counter=0)==>add ==>counter+1
+(divide) return counter0 
 
+  
+    
+    
 """
