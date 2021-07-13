@@ -10,7 +10,7 @@ class Point:
         return self.y
 
     def __eq__(self, other):
-        if isinstance(other, Point):
+        if isinstance(other, Point):            #kontrollon if point1 == point2
             return self.x == other.x and self.y == other.y
         return False
 
@@ -24,7 +24,7 @@ class Point:
 class Node:
     def __init__(self, item, rect):
         self.item = item
-        self.rect = rect
+        self.rect = rect            #mbase behen merge
 
     def __hash__(self):
         return hash(self.item)
@@ -121,7 +121,8 @@ class QTree:
 
         if len(self.points)< 5:
             return self.points.append(item)
-        else:
+        elif len(self.sub_point)< 5:
+            Rectangle.divide(item)
             return self.sub_point.append(item)
 
     def insert(self, item):
@@ -148,19 +149,23 @@ a.insert(Point(1, 3))
 a.insert(Point(2, 1))
 a.insert(Point(2, 1))
 a.insert(Point(1, 2))
-m = Point(1, 2)
-n = a.points[0]
+a.insert(sub_point)
+
+
+
+#m = Point(1, 2)
+#n = a.points[0]
 # print(type(n),type(m),type(a.points[1]))
 # print(m==a.points[1])
-cd = a.return_points()
-print(Rectangle(0,0,4,4).divideNE())
-print("--------------",Rectangle(0,0,4,4).divideNE().intersects(Point(-2, 1)))
-print("________",Rectangle(0,0,4,4).divide(Point(-2, 1)))
+#cd = a.return_points()
+#print(Rectangle(0,0,4,4).divideNE())
+#print("--------------",Rectangle(0,0,4,4).divideNE().intersects(Point(-2, 1)))
+#print("________",Rectangle(0,0,4,4).divide(Point(-2, 1)))
 # print(a.points[1])
 # print(a.points[2])
 # print(type(a.points[1]))
 # print(a.points[1]==a.points[2])
-print(cd, len(a),a.return_sub_points())
+#print(cd, len(a),a.return_sub_points())
 """
 insert>
 points qe intersect nga Rect
@@ -177,7 +182,17 @@ points qe intersect nga Rect
 Rect(x,y,w,h,counter=0)==>add ==>counter+1
 (divide) return counter0 
 
-  
+add(item)   [(1, 2),(1, 2),(2, 2)]  |   [0,0,3,3]        add:       
+    if intersects(Rectangle):
+        if points.len<2:        [(1, 2),[(1, 2),(2, 2)]]                     
+            append to points                                                                                                               
+        elif subpoints <2       
+            Rectangle.Divide()
+            append to subpoints
+        append to subpoints    
+    append subpoints to points     
+    
+    
     
     
 """
