@@ -1,3 +1,5 @@
+Pointss=[]
+
 class Point:
     def __init__(self, x, y):
         self.x = x
@@ -31,29 +33,36 @@ class Node:
 
 
 class Rectangle:
-    def __init__(self, x, y, w, h):
+    def __init__(self, x, y, w, h,lista=None):
         self.x = x
         self.y = y
         self.w = w
         self.h = h
-
-
-    def divideNE(self):
+        self.lista=lista
+    def divideNE(self,lista=None):
+        if lista is None:
+            lista = []
         w2, h2 = self.w / 2, self.h / 2
         x2, y2 = self.x - w2, self.y + h2
-        return Rectangle(x2, y2, w2, h2)
-    def divideNW(self):
+        return Rectangle(x2, y2, w2, h2,lista=[])
+    def divideNW(self,lista=None):
+        if lista is None:
+            lista = []
         w2, h2 = self.w / 2, self.h / 2
         x2, y2 = self.x + w2, self.y + h2
-        return Rectangle(x2, y2, w2, h2)
-    def divideSE(self):
+        return Rectangle(x2, y2, w2, h2,lista=[])
+    def divideSE(self,lista=None):
+        if lista is None:
+            lista = []
         w2, h2 = self.w / 2, self.h / 2
         x2, y2 = self.x - w2, self.y - h2
-        return Rectangle(x2, y2, w2, h2)
-    def divideSW(self):
+        return Rectangle(x2, y2, w2, h2,lista=[])
+    def divideSW(self,lista=None):
+        if lista is None:
+            lista = []
         w2, h2 = self.w / 2, self.h / 2
         x2, y2 = self.x + w2, self.y - h2
-        return Rectangle(x2, y2, w2, h2)
+        return Rectangle(x2, y2, w2, h2,lista=[])
     def divide(self, item):
         if item.x > self.x / 2 and item.y > self.y / 2:
             return self.divideNE()
@@ -86,19 +95,23 @@ class Rectangle:
     def __repr__(self):
         return f'({self.x},{self.y},{self.w},{self.h})'
 
+    def appends(self, item):
+        self.lista.append(item)
+
+
 class QTree(Rectangle):
-    def __init__(self, x=None, y=None, w=None, h=None, depth=None):  # x=None,y=None
-        super().__init__(x, y, w, h)
+
+    def __init__(self, x=None, y=None, w=None, h=None, lista=None):  # x=None,y=None
+        super().__init__(x, y, w, h,lista)
         self.points = []
-        """
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h"""
         self.sub_point = []
         self.counter = 0
-        self.depth = depth
-        self.threshHold = 5
+        self.capacitys=3
+        self.depth = 1
+
+    def capacity(self,subpoints,threshhold):
+        return len(subpoints)>threshhold
+
 
     def __iter__(self, points, sub_point):
         for child in points:
@@ -135,7 +148,24 @@ class QTree(Rectangle):
                 Rectangle.divide(self, item)
             self.points.append(item)
 
+#so like you need lists on the rectangles and when you divide new lists are created 
+    def newNewInsert(self,item):
+        self.item = item
+        if len(self.points)<self.capacitys:
+            if Rectangle.intersects(self, item):
+                print(len(self.points))
+                return self.points.append(item)
+        if len(self.sub_point)<self.capacitys:
+            Rectangle.divide(self,item)
+            self.depth += 1
+            if Rectangle.intersects(self, item):
+                return self.sub_point.append(item)
+        else:
+            self.sub_point=[]
 
+    def insertneu(self, item):
+        if item not in self.points:
+            self.newNewInsert(item)
 
     def return_points(self) -> list:
         return self.points
@@ -151,20 +181,31 @@ b = Point(1, 2)
 #print(ads)
 a = QTree(0, 0, 8, 8)
 print(type(a))
-a.newinsert(Point(1, 2))
-a.newinsert(Point(1, 3))
-a.newinsert(Point(2, 1))
-a.newinsert(Point(1, 12))
-a.newinsert(Point(2, 1))
-a.newinsert(Point(1, 3))
-a.newinsert(Point(2, 1))
-a.newinsert(Point(2, 1))
-a.newinsert(Point(2, 1))
-a.newinsert(Point(2, 1))
+"""
+a.newNewInsert(Point(2, 1))
+a.newNewInsert(Point(2, 1))
+a.newNewInsert(Point(2, 1))
+a.newNewInsert(Point(2, 1))
+a.newNewInsert(Point(2, 1))
+a.newNewInsert(Point(2, 1))
+a.newNewInsert(Point(2, 1))
+a.newNewInsert(Point(2, 1))
+a.newNewInsert(Point(2, 1))
+a.newNewInsert(Point(-1, 2))"""
+a.insertneu(Point(-1, 2))
+a.insertneu(Point(2, 1))
+a.insertneu(Point(-1.5, 2))
+a.insertneu(Point(-1.6, 2))
+a.insertneu(Point(-1.7, 2))
+a.insertneu(Point(-1.8, 2))
+a.insertneu(Point(-1.8, 2.1))
+a.insertneu(Point(-1.8, 2.2))
+
+
 #print(ads)
 print(a.points)
 print(a.sub_point)
-
+print(a.lista)
 #m = Point(1, 2)
 #n = a.points[0]
 # print(type(n),type(m),type(a.points[1]))
