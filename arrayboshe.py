@@ -35,7 +35,10 @@ class arr:
         if len(self.a) >5 :
             self.a=(arr().total)
         if len(self.b) > 3:
-            self.b.append(arr().total)
+            copylista = list(self.b)
+            self.b.clear()
+            self.b = list(arr(b=copylista))
+            self.total[1] = [self.b]
         if len(self.c) > 3:
             print("copylista")
             print(self.c)
@@ -43,8 +46,9 @@ class arr:
             self.c.clear()
             self.c=list(arr(c=copylista))
             print("then")
-            print(self.c)
-            self.total[2]=[self.c]
+            print(len(self.c))
+            self.total[2] = [self.c.copy()]
+            self.c.clear()
 
     def organizer(self, item):
         self.injection()
@@ -73,18 +77,25 @@ a = arr()
 print(a.total)
 a.organizer(1)
 a.organizer(1)
-a.organizer(1)
+a.organizer(1.1)
+a.organizer(1.2)
 a.organizer(2.3)
 a.organizer(2.3)
 a.organizer(2.4)
-a.organizer(2.5)
-a.organizer(3)
+a.organizer(2.6)
+"""
+a.organizer(2.6)
+a.organizer(2.7)
+a.organizer(2.7)
+a.organizer(2.7)"""
+a.organizer(2.8)
 a.organizer(2)
 a.organizer(1.9)
 print("fin")
 print(a.c)
 print(len(a.c))
 print(a.total)
+print(len(a.total))
 
 """b=arr(c=[1,2])
 print(b.total)"""
