@@ -44,6 +44,7 @@ class arr:
             self.c=list(arr(c=copylista))
             print("then")
             print(self.c)
+            self.total[2]=self.c
 
     def organizer(self, item):
         self.injection()
@@ -73,6 +74,9 @@ print(a.total)
 a.organizer(1)
 a.organizer(1)
 a.organizer(1)
+a.organizer(2.3)
+a.organizer(2.3)
+a.organizer(2.4)
 a.organizer(2.3)
 a.organizer(2.3)
 a.organizer(2.4)
