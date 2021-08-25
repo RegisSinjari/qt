@@ -44,7 +44,7 @@ class arr:
             self.c=list(arr(c=copylista))
             print("then")
             print(self.c)
-            self.total[2]=self.c
+            self.total[2]=[self.c]
 
     def organizer(self, item):
         self.injection()
@@ -77,13 +77,13 @@ a.organizer(1)
 a.organizer(2.3)
 a.organizer(2.3)
 a.organizer(2.4)
-a.organizer(2.3)
-a.organizer(2.3)
-a.organizer(2.4)
+a.organizer(2.5)
 a.organizer(3)
 a.organizer(2)
 a.organizer(1.9)
 print("fin")
+print(a.c)
+print(len(a.c))
 print(a.total)
 
 """b=arr(c=[1,2])
