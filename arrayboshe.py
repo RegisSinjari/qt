@@ -35,19 +35,16 @@ class arr:
     def injection(self):
         print("injection")
         print(len(self.c))
-        if len(self.a) >5 :
-            self.a=(arr().total)
+        if len(self.a) >3 :
+            self.a = [list(arr(a=list(self.a)))]
         if len(self.b) > 3:
-            copylista = list(self.b)
-            self.b.clear()
-            self.b = list(arr(b=copylista))
-            self.total[1] = [self.b]
+            self.b = [list(arr(b=list(self.b)))]
         if len(self.c) > 3:
             print(len(self.c))
             print("copylista")
             print(self.c)
-            copylista=list(self.c)
-            placeholder=[list(arr(c=copylista))]
+            copylistac=list(self.c)
+            placeholder=[list(arr(c=copylistac))]
 
             #self.c.clear()
             #del self.c[:]
@@ -91,6 +88,8 @@ a.organizer(1)
 a.organizer(1)
 a.organizer(1.1)
 a.organizer(1.2)
+a.organizer(1.3)
+a.organizer(1.4)
 a.organizer(2.3)
 a.organizer(2.3)
 a.organizer(2.4)
@@ -109,6 +108,6 @@ print("fin")
 print(a.c)
 print(a.total)
 print(len(a.total))
-print(a.finale())
+print(a.finale()) # bashkoje manualisht ose beje sic e bere hidhi t gjitha njer pastaj loop em then (finale)
 """b=arr(c=[1,2])
 print(b.total)"""
