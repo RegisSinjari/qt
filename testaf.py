@@ -51,7 +51,7 @@ class Point:
         return f'({self.x},{self.y})'
 
 class Qtree:
-    def __init__(self,x=None, y=None, w=None, h=None,reducer=None,holder=None):
+    def __init__(self,x=None, y=None, w=None, h=None,reducer=None,holder=None,se=None):
         self.x = x
         self.y = y
         self.w = w
@@ -59,9 +59,10 @@ class Qtree:
         self.ne = []
         self.nw = []
         self.sw = []
-        self.se = []
-        self.onetwo=[]
-        self.twothree = []
+        if se is None:
+            self.se = []
+        else:
+            self.se = se
         self.total=[]
         if holder is None:
             self.holder=[]
@@ -74,6 +75,7 @@ class Qtree:
             self.h = self.h / 2
 
         self.organizer()
+        print("i ran")
         self.checker()
         #needs some await
         self.mixer()
@@ -86,9 +88,10 @@ class Qtree:
         elif len(self.nw) > 3:
             self.nw=[list(Qtree(holder=self.nw,reducer=True))]
         elif len(self.se) > 3:
-            print(self.w,self.h,self.se,self.holder)
-            self.se = list(Qtree(self.x,self.y,self.w,self.h,holder=self.se,reducer=True))
-            print(self.se)
+            bb=Qtree(self.x,self.y,self.w,self.h,holder=self.se,reducer=True)
+            bb.organizer()
+            #print(bb.total)
+            self.se = list(bb)
         elif len(self.sw) > 3:
             self.sw=[list(Qtree(holder=self.sw,reducer=True))]
 
@@ -101,6 +104,7 @@ class Qtree:
     def intersects(self, item):  # returns TRUE/FALSE
         return self.x - self.w / 2 <= item.x <= self.x + self.w / 2 and \
                self.y - self.h / 2 <= item.y <= self.y + self.h / 2
+
     def reducer(self):
         self.x = self.x / 2
         self.y = self.y / 2
@@ -125,6 +129,7 @@ class Qtree:
     def __repr__(self):
         return f'{self.total}'
 
-arr=[Point(1, 1),Point(1, 1),Point(1, 1),Point(1, 1)]
+arr=[Point(1, 1),Point(1, 1),Point(5,5),Point(1, 2),Point(1,3),Point(1,12)]
+
 a=Qtree(0,0,8,8,holder=arr)
 print(a)
