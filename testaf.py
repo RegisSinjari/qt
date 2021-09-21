@@ -51,18 +51,27 @@ class Point:
         return f'({self.x},{self.y})'
 
 class Qtree:
-    def __init__(self,x=None, y=None, w=None, h=None,reducer=None,holder=None,se=None):
+    def __init__(self,x=None, y=None, w=None, h=None,reducer=None,holder=None,se=None,ne=None,nw=None,sw=None):
         self.x = x
         self.y = y
         self.w = w
         self.h = h
-        self.ne = []
-        self.nw = []
-        self.sw = []
         if se is None:
             self.se = []
         else:
             self.se = se
+        if nw is None:
+            self.nw = []
+        else:
+            self.nw = nw
+        if sw is None:
+            self.sw = []
+        else:
+            self.sw = sw
+        if ne is None:
+            self.ne = []
+        else:
+            self.ne = ne
         self.total=[]
         if holder is None:
             self.holder=[]
@@ -75,25 +84,25 @@ class Qtree:
             self.h = self.h / 2
 
         self.organizer()
-        print("i ran")
         self.checker()
         #needs some await
         self.mixer()
 
 
     def checker(self):
-        print(self.w,self.h)
+        print(self.w, self.h)
         if len(self.ne) > 3:
-            self.ne = [list(Qtree(holder=self.ne,reducer=True))]
+            ne = Qtree(self.x, self.y, self.w, self.h, holder=self.ne.copy(), reducer=True)
+            self.sw = list(ne)
         elif len(self.nw) > 3:
-            self.nw=[list(Qtree(holder=self.nw,reducer=True))]
+            nw = Qtree(self.x, self.y, self.w, self.h, holder=self.nw.copy(), reducer=True)
+            self.sw = list(nw)
         elif len(self.se) > 3:
-            bb=Qtree(self.x,self.y,self.w,self.h,holder=self.se,reducer=True)
-            bb.organizer()
-            #print(bb.total)
-            self.se = list(bb)
+            se = Qtree(self.x, self.y, self.w, self.h, holder=self.se.copy(), reducer=True)
+            self.se = list(se)
         elif len(self.sw) > 3:
-            self.sw=[list(Qtree(holder=self.sw,reducer=True))]
+            sw = Qtree(self.x, self.y, self.w, self.h, holder=self.sw.copy(), reducer=True)
+            self.sw = list(sw)
 
     def mixer(self):
         self.total.append(self.ne)
@@ -113,7 +122,6 @@ class Qtree:
 
     def organizer(self):
         for items in self.holder:
-            print(items)
             if items.x > (self.x + self.w) / 2 and items.y > (self.y + self.h) / 2:
                 self.ne.append(items)
             elif items.x < (self.x + self.w) / 2 and items.y > (self.y + self.h) / 2:
@@ -129,7 +137,7 @@ class Qtree:
     def __repr__(self):
         return f'{self.total}'
 
-arr=[Point(1, 1),Point(1, 1),Point(5,5),Point(1, 2),Point(1,3),Point(1,12)]
-
-a=Qtree(0,0,8,8,holder=arr)
+arr=[Point(1, 1.1),Point(1, 1.2),Point(5,5),Point(5.1,5.1),Point(1, 2),Point(1,3),Point(1, 2.11),Point(1,3.13),Point(1,2.23),Point(1,2.24)]
+ar2=[Point(1.05,4.4),Point(1.06,4.5),Point(1.01,1.9),Point(1.01,1.8),Point(1.01,2.9),Point(1.01,2.8),Point(1.01,0.9),Point(1.01,0.8)]#, Point(1,2.23), Point(1,2.24)
+a=Qtree(0,0,8,8,holder=ar2)
 print(a)
