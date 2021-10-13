@@ -102,7 +102,6 @@ print(dictor)
 
 startFrom = 0
 endTo = 5
-print(vertices)
 # okay don't delete indexes just exclude them
 # loop throw a row find shortest then move to index
 temp = []
@@ -117,7 +116,7 @@ for rows in range(len(vertices)):
 
 
 def neighbour(vertices, index):
-    """returns a list of vertices(indexes,values) that are next to the vertex specified"""
+    """returns a dict of vertices(indexes,values) that are next to the vertex specified"""
     newList = {}
     for a in range(len(vertices[index])):
         if vertices[index][a] != 0:
@@ -125,10 +124,15 @@ def neighbour(vertices, index):
     return newList
 
 
+def minNotIn(vertices, lista):
+    current = 999
+    for a in vertices:
+        if a < current and a != 0 and a not in lista:
+            current = a
+    return current
+
+
 print("new")
-for a in range(len(vertices)):
-    print(neighbour(vertices, a))
-    print(vertices[a])
 """
 start looping from the column that is the number
 find the smallest value in the row
@@ -137,12 +141,141 @@ add the values
 return to the other option 
 if the option is less than
 """
-#introduce some dynamic programing
-#start from the two vertices start and end
-print(neighbour(vertices, a))
-print(vertices[a])
+# introduce some dynamic programing
+# start from the two vertices start and end
+
+# find all the neighbours and start adding ideja eshte te fillosh ne 0 dhe te mbarrosh ne 5
+#scrap that
+zgjidhje = {}
+zgj=[]
+visitedNodes=[]
+# def sol2(start,finish):
+#     bestRoute=0
+#     start = neighbour(vertices, start)
+#     startiVal = list(start.values())
+#     startiKey = list(start.keys())
+#     print(start)
+#     #if sum e nje route me vogel se routi tjtr dmt if sum
+#
+#     route=0
+#     for a in start:
+#
+#         for b in neighbour(vertices, int(a.strip('Vertex: '))):
+#
+#         neigh=neighbour(vertices, a)
+#
+#
+#
+#
+#     print(startiVal)
+#     print(startiKey)
+#     while len(nodes):
+#         ...
+#
+#         #look for the neighbour in start
+#
+#         #
+#         #bla bla pop.start
+#         #start =lowest value
+#     return starti
 
 
+
+
+
+# duhen 2 cikle dhe llogarit kush eshte shuma me e vogel
+
+# def solution(start, finish):
+#     """ fillon me nje cikel te vertexi i pare"""
+#     starti = neighbour(vertices, start)
+#     startiL = list(starti.values())
+#     print("eeeee")
+#     print(startiL)
+#     stTest = [11, 2]
+#     finish = neighbour(vertices, finish)
+#     exclude = set()
+#     minVal = 0
+#     minVal2 = 0
+#     for key in starti:  # look for
+#         exc = start
+#         minVal = min(starti, key=starti.get)
+#         exclude.add(exc)
+#         minVal3 = minNotIn(startiL, exclude)
+#         print(key, starti[key])
+#         print(exclude)
+#         print("notin")
+#         print(minVal3)
+#         starti = neighbour(vertices, start)
+#
+#         for key2 in neighbour(vertices, int(key.strip("Vertex: "))):
+#             minVal2 = min(neighbour(vertices, int(key.strip("Vertex: "))),
+#                           key=neighbour(vertices, int(key.strip("Vertex: "))).get)
+#             print(key2)
+#             print("minnn2" + minVal2)
+#             # switch nums
+#     for i in range(len(vertices)):
+#         ...
+#     # nje gje qe fillon basically recurssion
+#     # start = 0
+#     # base case eshte qe
+#     endforReal = finish
+#     if start == endforReal:
+#         return
+#
+#     print("minnn1" + minVal)
+#     """for key in finish:  # look for start
+#         print(key,finish[key])"""
+#
+
+print("####")
+
+allNeighnours={f'Vertex: {a}' : neighbour(vertices, a) for a in range(len(vertices))}
+allNodes=[f'Vertex: {a}' for a in range(7)]
+#print(allNodes)
+path=[]
+#print(allNeighnours)
+def dikstr(st,fin):
+    inF = 999
+    currentNode=st
+    #ktu ok
+    # tani kerko ca ke perreth dhe kthej ne lista
+    # for node in allNeighnours[currentNode]:
+    #     if allNeighnours[currentNode][node]<inF:
+    #         inF=allNeighnours[currentNode][node]
+    #         inInd=node
+    #         visitedNodes.append(node)
+    #     visitedNodes.append(node)
+    # print(inF)
+    # print(inInd)
+    allNodes.remove(st)
+    while len(allNodes):
+        print(allNodes)
+        print(path)
+        if currentNode == fin:
+            break
+        for node in allNeighnours[currentNode]:
+            if allNeighnours[currentNode][node] < inF:
+                inF = allNeighnours[currentNode][node]
+                node2=node
+                allNodes.remove(node)
+                path.append(node)
+                currentNode = node2
+            else:
+                allNodes.remove(node)
+
+
+
+
+
+dikstr('Vertex: 0','Vertex: 5')
+print(path)
+print("Eyo KTU")
+print(visitedNodes)
+        #sum(min(nodit,min(nodit+1))
+        # current node=min
+
+
+#print(allNeighnours['Vertex 1: '])
 
 # 0-->5 {0,1,3,4,5}
 class Dijkstra:
