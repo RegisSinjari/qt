@@ -233,9 +233,18 @@ allNeighnours={f'Vertex: {a}' : neighbour(vertices, a) for a in range(len(vertic
 allNodes=[f'Vertex: {a}' for a in range(7)]
 #print(allNodes)
 path=[]
+path2=[]
+print("ssssssss")
+for node in allNeighnours['Vertex: 0']:
+    if allNeighnours['Vertex: 0'][node] == minimumi(allNeighnours['Vertex: 0'].values()):
+        print("noe")
+#print(minimumi(allNeighnours['Vertex: 0'].values()))
+#print(allNeighnours['Vertex: 1']['Vertex: 2'])
+print("^^^")
+
 #print(allNeighnours)
 def dikstr(st,fin):
-    inF = 999
+
     currentNode=st
     #ktu ok
     # tani kerko ca ke perreth dhe kthej ne lista
@@ -249,26 +258,27 @@ def dikstr(st,fin):
     # print(inInd)
     allNodes.remove(st)
     while len(allNodes):
-        print(allNodes)
-        print(path)
         if currentNode == fin:
             break
         for node in allNeighnours[currentNode]:
-            if allNeighnours[currentNode][node] < inF:
-                inF = allNeighnours[currentNode][node]
-                node2=node
-                allNodes.remove(node)
-                path.append(node)
-                currentNode = node2
-            else:
-                allNodes.remove(node)
+            if node in allNodes:
+                if allNeighnours[currentNode][node] == minNotIn(allNeighnours[currentNode].values(),path2):
+                    path.append(node)
+                    path2.append(allNeighnours[currentNode][node])
+                    currenttNode = node
+                else:
+                    allNodes.remove(node)
+                if node in allNodes:
+                    allNodes.remove(node)
+        currentNode=currenttNode
+        print(currentNode)
 
 
 
 
-
-dikstr('Vertex: 0','Vertex: 5')
+dikstr('Vertex: 0','Vertex: 3')
 print(path)
+print(path2)
 print("Eyo KTU")
 print(visitedNodes)
         #sum(min(nodit,min(nodit+1))
