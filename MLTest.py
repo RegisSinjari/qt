@@ -1,8 +1,8 @@
-import numpy as np
+# import numpy as np
 import os
 import PIL
 import PIL.Image
-import pandas_read_xml as pdx
+# # import pandas_read_xml as pdx
 import tensorflow as tf
 #import tensorflow_datasets as tfds
 
@@ -11,46 +11,113 @@ import pathlib
 # data_dir = tf.keras.utils.get_file(origin=dataset_url,
 #                                    fname='cat_dog',
 #                                    untar=True)
-
+#
 data_d2=r'C:\Users\Regis Sinjari\Downloads\archive (1)'
 data_dir = pathlib.Path(data_d2)
-print(data_dir)
-image_count = len(list(data_dir.glob('*/*.png')))
-print(image_count)
+# print(data_dir)
+# image_count = len(list(data_dir.glob('*/*.png')))
+# print(image_count)
 img_xml=list(data_dir.glob('*/*.xml'))
-textxml=r'C:\Users\Regis Sinjari\Downloads\archive (1)\annotations\Cats_Test0.xml'
-
+# textxml=r'F:\archive\annotations\Cats_Test0.xml'
+cat=r'C:\Users\Regis Sinjari\Downloads\archive (1)\cat'
+dog=r'C:\Users\Regis Sinjari\Downloads\archive (1)\dog'
+images=r'C:\Users\Regis Sinjari\Downloads\archive (1)\images'
 
 import xml.etree.ElementTree as ET
-tree = ET.parse(textxml)
-root = tree.getroot()
-print(root.find('filename').text) #.tag .attribute
-width=root.find('size/width').text
-height=root.find('size/height').text
-print(root.find('object/name').text)
-print(width,height)
+# tree = ET.parse(textxml)
+# root = tree.getroot()
+# print(root.find('filename').text) #.tag .attribute
+# width=root.find('size/width').text
+# height=root.find('size/height').text
+# print(root.find('object/name').text)
+# left = int(root.find('object/bndbox/xmin').text)
+# top = int(root.find('object/bndbox/ymin').text)
+# right = int(root.find('object/bndbox/xmax').text)
+# bottom = int(root.find('object/bndbox/ymax').text)
+# print(left,top,right,bottom)
+# animal=root.find('object/name').text
+# file_Name=root.find('filename').text
+# im = PIL.Image.open(os.path.join(images, file_Name))
+# if animal == 'cat':
+#     im1 = im.crop((left, top, right, bottom))
+#     im1.save(os.path.join(cat, file_Name))
+# elif animal == 'dog':
+#     im1 = im.crop((left, top, right, bottom))
+#     im1.save(os.path.join(dog, file_Name))
+# else:
 
+# #
+batch_size = 32
+img_height = 180
+img_width = 180
+
+train_ds = tf.keras.utils.image_dataset_from_directory(
+  data_dir,
+  validation_split=0.2,
+  subset="training",
+  seed=123,
+  image_size=(img_height, img_width),
+  batch_size=batch_size)
+
+val_ds = tf.keras.utils.image_dataset_from_directory(
+  data_dir,
+  validation_split=0.2,
+  subset="validation",
+  seed=123,
+  image_size=(img_height, img_width),
+  batch_size=batch_size)
+
+class_names = train_ds.class_names
+
+print(class_names)
+
+
+#so you have to loop through all xml then switch to image and crop and save to correct folder:
 #
-# batch_size = 32
-# img_height = 180
-# img_width = 180
+# for im_xml in img_xml:
+#     tree = ET.parse(im_xml)
+#     root = tree.getroot()
+#     left = int(root.find('object/bndbox/xmin').text)
+#     top = int(root.find('object/bndbox/ymin').text)
+#     right = int(root.find('object/bndbox/xmax').text)
+#     bottom = int(root.find('object/bndbox/ymax').text)
 #
-# train_ds = tf.keras.utils.image_dataset_from_directory(
-#   data_dir,
-#   validation_split=0.2,
-#   subset="training",
-#   seed=123,
-#   image_size=(img_height, img_width),
-#   batch_size=batch_size)
-#
-# val_ds = tf.keras.utils.image_dataset_from_directory(
-#   data_dir,
-#   validation_split=0.2,
-#   subset="validation",
-#   seed=123,
-#   image_size=(img_height, img_width),
-#   batch_size=batch_size)
-#
-# class_names = train_ds.class_names
-#
-# print(class_names)
+#     #print(root.find('object/name').text)
+#     animal=root.find('object/name').text
+#     file_Name=root.find('filename').text
+#     im = PIL.Image.open(os.path.join(images, file_Name))
+#     if animal == 'cat':
+#         im1 = im.crop((left, top, right, bottom))
+#         im1.save(os.path.join(cat, file_Name))
+#     elif animal == 'dog':
+#         im1 = im.crop((left, top, right, bottom))
+#         im1.save(os.path.join(dog, file_Name))
+#     else:
+#         print('neither?')
+
+
+num_classes = 2
+
+model = tf.keras.Sequential([
+  tf.keras.layers.Rescaling(1./255),
+  tf.keras.layers.Conv2D(32, 3, activation='relu'),
+  tf.keras.layers.MaxPooling2D(),
+  tf.keras.layers.Conv2D(32, 3, activation='relu'),
+  tf.keras.layers.MaxPooling2D(),
+  tf.keras.layers.Conv2D(32, 3, activation='relu'),
+  tf.keras.layers.MaxPooling2D(),
+  tf.keras.layers.Flatten(),
+  tf.keras.layers.Dense(128, activation='relu'),
+  tf.keras.layers.Dense(num_classes)
+])
+
+model.compile(
+  optimizer='adam',
+  loss=tf.losses.SparseCategoricalCrossentropy(from_logits=True),
+  metrics=['accuracy'])
+model.fit(
+  train_ds,
+  validation_data=val_ds,
+  epochs=3
+)
+model.save('model.h5')
