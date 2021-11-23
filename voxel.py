@@ -45,7 +45,7 @@ def heightRet(x,y):
     mix=int((r+b+g)/3)
     maxHeght=800
 
-    #map 255 is 800
+    #map 255 is 50
     x=int((50*mix)/255)
     """return a single value that maps to height"""
     return x
@@ -69,19 +69,19 @@ pygame.display.set_caption("Voxel")
 # Loop until the user clicks the close button.
 done = False
 clock = pygame.time.Clock()
-distance=300
+distance=100
 p=Point(300,300)
 screen_width,screen_height=800,800
 height, horizon, scale_height= 50, 120, 120
 
 def drawIt():
     for z in range(distance, 1, -1):
+        print(z)
         # Find line on map. This calculation corresponds to a field of view of 90°
         pleft  = Point(-z + p.x, -z + p.y)
         pright = Point( z + p.x, -z + p.y)
         # segment the line
         dx = int((pright.x - pleft.x) / screen_width)
-        print(dx)
         # Raster line and draw a vertical line for each segment
         for i in range(0, screen_width):
             height_on_screen = int((int(height) - int(heightRet(pleft.x, pleft.y) )) / z * scale_height + horizon)
